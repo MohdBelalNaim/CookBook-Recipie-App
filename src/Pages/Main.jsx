@@ -34,6 +34,15 @@ const Main = () =>{
                         <div className='py-2'>
                           <Item name={"Hakka noodles"} cook={"Mohd Belal Naim"} time={"1hr"} image={"https://www.whiskaffair.com/wp-content/uploads/2020/03/Hakka-Noodles-2-3.jpg"}/>   
                           <Item name={"White sauce pasta"} cook={"Asad eqbal"} time={"30min"} image={"https://parade.com/wp-content/uploads/2020/06/Best-pasta-recipes.jpg"}/>
+                          <Item name={"Hakka noodles"} cook={"Mohd Belal Naim"} time={"1hr"} image={"https://www.whiskaffair.com/wp-content/uploads/2020/03/Hakka-Noodles-2-3.jpg"}/>   
+                          <Item name={"White sauce pasta"} cook={"Asad eqbal"} time={"30min"} image={"https://parade.com/wp-content/uploads/2020/06/Best-pasta-recipes.jpg"}/>
+                          <Item name={"Hakka noodles"} cook={"Mohd Belal Naim"} time={"1hr"} image={"https://www.whiskaffair.com/wp-content/uploads/2020/03/Hakka-Noodles-2-3.jpg"}/>   
+                          <Item name={"White sauce pasta"} cook={"Asad eqbal"} time={"30min"} image={"https://parade.com/wp-content/uploads/2020/06/Best-pasta-recipes.jpg"}/>
+                          <Item name={"Hakka noodles"} cook={"Mohd Belal Naim"} time={"1hr"} image={"https://www.whiskaffair.com/wp-content/uploads/2020/03/Hakka-Noodles-2-3.jpg"}/>   
+                          <Item name={"White sauce pasta"} cook={"Asad eqbal"} time={"30min"} image={"https://parade.com/wp-content/uploads/2020/06/Best-pasta-recipes.jpg"}/>
+                          <Item name={"Hakka noodles"} cook={"Mohd Belal Naim"} time={"1hr"} image={"https://www.whiskaffair.com/wp-content/uploads/2020/03/Hakka-Noodles-2-3.jpg"}/>   
+                          <Item name={"White sauce pasta"} cook={"Asad eqbal"} time={"30min"} image={"https://parade.com/wp-content/uploads/2020/06/Best-pasta-recipes.jpg"}/>
+                          
                           
                         </div>
                     </div>

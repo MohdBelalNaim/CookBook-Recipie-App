@@ -4,7 +4,7 @@ const Item =(props) =>{
     return(
         <div className='row mt-2 border rounded animate__animated animate__slideInUp'>
         <div className='col-lg-4 col-5'>
-            <img src={props.image} alt="noodle" id="item-image" />
+            <img src={props.image} alt="noodle" className='img-fluid'/>
         </div>
         <div className='col-lg-8 col-7 py-2'>
             <div className='h5 mt-1'>{props.name}</div>
