@@ -1,18 +1,34 @@
-import React from 'react';
+import { addDoc, collection } from 'firebase/firestore';
+import React, { useEffect } from 'react';
 import { useState } from 'react/cjs/react.development';
-import Navbar from '../components/Navbar'
+import Swal from 'sweetalert2';
+import { auth, db } from '../firebase';
+import {useNavigate} from 'react-router-dom'
+import Overlay from '../components/Overlay'
 
 const AddRecipie = () =>{
 
-    window.addEventListener('beforeunload', function (e) {
-        e.preventDefault();
-        e.returnValue = '';
-    });
+    const checkLogin = () =>{
+        if(!localStorage.getItem('user')){
+            navigate('/')
+        }
+    }
+    
+    checkLogin()
+
+    const[posting,setPosting]=useState(false)
+
+    const navigate = useNavigate()
 
     const[Items,setItems]=useState([])
     const[ingridient,setIngridient]=useState("")
     const[steps,setSteps]=useState([])
     const[step,setStep]=useState("")
+
+    const[name,setName]=useState("")
+    const[time,setTime]=useState("")
+    const[about,setAbout]=useState("")
+    const[image,setImage]=useState("")
 
     const pushItems=(item)=>{
         if(item!==""){
@@ -46,10 +62,50 @@ const AddRecipie = () =>{
     const removeStep=(item)=>{
         setSteps(prev=>prev.filter(rest=>rest!==item))
     }
-    
+
+    const recipieRef = collection(db,"recipies")
+    const pushRecipie = async() =>{
+        if(!name ||!time ||!about ||!image ||!Items ||!steps){
+            new Swal({
+                title:"Error",
+                text:"All feilds are required",
+                icon:"error"
+            })
+        }
+        else{
+            setPosting(true)
+        await addDoc(recipieRef,{
+            name,
+            time,
+            about,
+            image,
+            steps,
+            Items,
+            user:{
+                name:auth.currentUser.displayName,
+                id:auth.currentUser.uid,
+            }
+        })
+        .then(created=>{
+            setPosting(false)
+            new Swal({
+                title:"Recipie added successsfully",
+                text:"Your recipie has been published",
+                icon:"Success"
+            })
+            navigate('/main')
+        })
+        .catch(err=>{
+            setPosting(false)
+            console.log(err)
+        })
+        }
+    }
     return(
         <>
-            <Navbar/>
+            {
+                posting && <Overlay message={"Posting your recipie"}/> 
+            }
             <div className='container'>
                 <div className='row'>
                     <div className='col-lg-6'>
@@ -93,10 +149,16 @@ const AddRecipie = () =>{
                             <div><b>Add recipie info</b></div>
                             <div>
                                 <label className='mt-2'>Recipie name</label>
-                                <input type="text" className='form-control' />
+                                <input value={name} onChange={e=>setName(e.target.value)} type="text" className='form-control' />
                                 
                                 <label className='mt-2'>Cookng time</label>
-                                <input type="text" className='form-control' />
+                                <input value={time} onChange={e=>setTime(e.target.value)} type="text" className='form-control' />
+
+                                <label className='mt-2'>Image link</label>
+                                <input value={image} onChange={e=>setImage(e.target.value)} type="text" className='form-control' />
+
+                                <label className='mt-2'>About dish</label>
+                                <textarea value={about} onChange={e=>setAbout(e.target.value)} rows={3} type="text" className='form-control' />
                                 
                                 <label  className='mt-2'>Ingridient</label>
                                 <input id="inginp" value={ingridient} onChange={e=>setIngridient(e.target.value)} type="text" className='form-control' />
@@ -108,7 +170,7 @@ const AddRecipie = () =>{
                                 <textarea value={step} onChange={e=>setStep(e.target.value)} rows={3} type="text" className='form-control' />
                                 <button onClick={()=>{pushStep(step)}} className='btn btn-dark mt-2'>Add <i className='fas fa-plus px-1'></i> </button>
 
-                                <button className='form-control mt-3 btn btn-dark'>Post my recipie</button>
+                                <button onClick={()=>pushRecipie()} className='form-control mt-3 btn btn-dark'>Post my recipie</button>
                             </div>
                         </div>
                     </div>

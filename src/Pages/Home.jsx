@@ -1,13 +1,10 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import {getAuth,signInWithEmailAndPassword,GoogleAuthProvider,signInWithPopup} from 'firebase/auth'
-import { app } from '../firebase';
+import {signInWithEmailAndPassword,GoogleAuthProvider,signInWithPopup} from 'firebase/auth'
 import Overlay from '../components/Overlay';
 import Swal from 'sweetalert2';
-
-const Home = () =>{
-
-    const auth = getAuth(app)
+import {auth} from '../firebase'
+const Home = ({setAuth}) =>{
     const navigate = useNavigate()
     const[invalid,setInvalid]=useState(false)
     const[email,setEmail] = useState("")
@@ -21,6 +18,7 @@ const Home = () =>{
             localStorage.setItem('user',JSON.stringify(result))
             navigate('/main')
             setProcessing(false)
+            setAuth(true)
         })
         .catch(err=>{
             setInvalid(true)
@@ -35,6 +33,7 @@ const Home = () =>{
         .then(result=>{
             localStorage.setItem('user',JSON.stringify(result))
             navigate('/main')
+            setAuth(true)
         })
         .catch(err=>{
             console.log(err.message)

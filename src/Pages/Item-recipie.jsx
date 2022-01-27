@@ -1,10 +1,17 @@
 import React from 'react';
-import Navbar from '../components/Navbar';
+import { useNavigate } from 'react-router-dom';
 
 const ItemRecipie = ()=>{
+    const navigate = useNavigate()
+    const checkLogin = () =>{
+        if(!localStorage.getItem('user')){
+            navigate('/')
+        }
+    }
+    
+    checkLogin()
     return(
         <div>
-            <Navbar />
             <div className='container animate__animated animate__fadeIn'>
                 <div className='text-center h3 py-3'>White sauce pasta</div>
                 <div>

@@ -1,11 +1,50 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import Css from './Main.css'
 import Item from '../components/Recipie-item'
+import { useState } from 'react/cjs/react.development';
+import { collection, getDocs } from 'firebase/firestore';
+import { db } from '../firebase';
+import { Navigate, useNavigate } from 'react-router-dom';
 const Main = () =>{
+
+    const navigate = useNavigate()
+    const checkLogin = () =>{
+        if(!localStorage.getItem('user')){
+            navigate('/')
+        }
+    }
+    
+    checkLogin()
+
+    const[items,setItems]=useState([])
+    const[loading,setLoading]=useState(false)
+
+    const recipieCollectionRef = collection(db,"recipies")
+
+    useEffect(()=>{
+        
+        const getData = async() =>{
+            setLoading(true)
+            const data  = await getDocs(recipieCollectionRef)
+            setItems(data.docs.map((doc)=>({...doc.data(),id:doc.id})))
+            setLoading(false)
+        }
+        
+        getData()
+        
+    },[])
+
+    const Loader = () =>{
+        return(
+            <div className='py-5 text-center'>
+                Loading your delicacies
+            </div>
+        )
+    }
+
     return(
         <div>
-            <Navbar/>
             <div className='container-fluid'>
                 <div className='row'>
                     <div className='col-lg-6' id="banner">
@@ -32,17 +71,17 @@ const Main = () =>{
                     <div className='col-lg-6 px-4' id="element-container">
                         <div className='h4 mt-3'><b>Top recipies</b></div>
                         <div className='py-2'>
-                          <Item name={"Hakka noodles"} cook={"Mohd Belal Naim"} time={"1hr"} image={"https://www.whiskaffair.com/wp-content/uploads/2020/03/Hakka-Noodles-2-3.jpg"}/>   
-                          <Item name={"White sauce pasta"} cook={"Asad eqbal"} time={"30min"} image={"https://parade.com/wp-content/uploads/2020/06/Best-pasta-recipes.jpg"}/>
-                          <Item name={"Hakka noodles"} cook={"Mohd Belal Naim"} time={"1hr"} image={"https://www.whiskaffair.com/wp-content/uploads/2020/03/Hakka-Noodles-2-3.jpg"}/>   
-                          <Item name={"White sauce pasta"} cook={"Asad eqbal"} time={"30min"} image={"https://parade.com/wp-content/uploads/2020/06/Best-pasta-recipes.jpg"}/>
-                          <Item name={"Hakka noodles"} cook={"Mohd Belal Naim"} time={"1hr"} image={"https://www.whiskaffair.com/wp-content/uploads/2020/03/Hakka-Noodles-2-3.jpg"}/>   
-                          <Item name={"White sauce pasta"} cook={"Asad eqbal"} time={"30min"} image={"https://parade.com/wp-content/uploads/2020/06/Best-pasta-recipes.jpg"}/>
-                          <Item name={"Hakka noodles"} cook={"Mohd Belal Naim"} time={"1hr"} image={"https://www.whiskaffair.com/wp-content/uploads/2020/03/Hakka-Noodles-2-3.jpg"}/>   
-                          <Item name={"White sauce pasta"} cook={"Asad eqbal"} time={"30min"} image={"https://parade.com/wp-content/uploads/2020/06/Best-pasta-recipes.jpg"}/>
-                          <Item name={"Hakka noodles"} cook={"Mohd Belal Naim"} time={"1hr"} image={"https://www.whiskaffair.com/wp-content/uploads/2020/03/Hakka-Noodles-2-3.jpg"}/>   
-                          <Item name={"White sauce pasta"} cook={"Asad eqbal"} time={"30min"} image={"https://parade.com/wp-content/uploads/2020/06/Best-pasta-recipes.jpg"}/>
-                          
+
+                            {
+                                !loading?
+                                items.map(item=>{
+                                    return(
+                                        <Item name={item.name} cook={item.user.name} time={item.time} image={item.image}/>   
+
+                                    )
+                                })
+                                :<Loader/>
+                            }
                           
                         </div>
                     </div>
