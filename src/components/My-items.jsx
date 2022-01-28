@@ -1,4 +1,3 @@
-
 import React from 'react';
 const MyItem=({name,image})=>{
 
@@ -12,7 +11,7 @@ const MyItem=({name,image})=>{
                     <div className='col-lg-7 py-3 col-7'>
                         <div>{name}</div>
                         <div>
-                            <button className='btn btn-danger mt-3' style={{"fontSize":16+"px"}}> <i className='fas fa-trash'></i> Remove</button>
+                            <button className='btn btn-danger mt-3' style={{"fontSize":16+"px"}} onClick={()=>deleteData(name)}> <i className='fas fa-trash'></i> Remove</button>
                         </div>
                     </div>
                 </div>
